@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: 766691179784.dkr.ecr.ap-south-1.amazonaws.com/progressive-delivery-app:bcdcd4088e7f8f8dc6b8c62f7af6ecf35ed27476
+          image: 766691179784.dkr.ecr.ap-south-1.amazonaws.com/progressive-delivery-app:c02de64
           ports:
             - containerPort: 8080
           env:
