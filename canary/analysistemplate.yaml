@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: success-rate
+  namespace: default
+spec:
+  metrics:
+    - name: success-rate
+      interval: 15s
+      successCondition: result[0] >= 0.95
+      failureLimit: 2
+      provider:
+        prometheus:
+          address: http://prometheus-operated.monitoring.svc.cluster.local:9090
+          query: |
+            sum(rate(http_requests_total{app="app-canary", status!~"5.."}[1m]))
+            /
+            sum(rate(http_requests_total{app="app-canary"}[1m]))

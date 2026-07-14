@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-preview
+  namespace: default
+spec:
+  selector:
+    app: app-bluegreen
+  ports:
+    - port: 80
+      targetPort: 8080

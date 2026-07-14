@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: app-bluegreen
+  namespace: default
+spec:
+  replicas: 3
+  strategy:
+    blueGreen:
+      activeService: app-active
+      previewService: app-preview
+      autoPromotionEnabled: false   # manual promotion — good for the demo narrative
+  selector:
+    matchLabels:
+      app: app-bluegreen
+  template:
+    metadata:
+      labels:
+        app: app-bluegreen
+    spec:
+      containers:
+        - name: app
+          image: 766691179784.dkr.ecr.ap-south-1.amazonaws.com/progressive-delivery-app:SET_BY_CI
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_VERSION
+              value: "v1"

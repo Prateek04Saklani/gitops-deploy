@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: app-canary
+  namespace: default
+spec:
+  replicas: 5
+  strategy:
+    canary:
+      canaryService: app-canary-svc
+      stableService: app-stable-svc
+      trafficRouting:
+        nginx:
+          stableIngress: app-ingress
+      steps:
+        - setWeight: 20
+        - pause: {duration: 30s}
+        - analysis:
+            templates:
+              - templateName: success-rate
+        - setWeight: 50
+        - pause: {duration: 30s}
+        - setWeight: 100
+  selector:
+    matchLabels:
+      app: app-canary
+  template:
+    metadata:
+      labels:
+        app: app-canary
+    spec:
+      containers:
+        - name: app
+          image: 766691179784.dkr.ecr.ap-south-1.amazonaws.com/progressive-delivery-app:SET_BY_CI
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_VERSION
+              value: "v1"
