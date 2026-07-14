@@ -29,6 +29,8 @@ spec:
       labels:
         app: app-canary
     spec:
+      imagePullSecrets:
+        - name: ecr-pull-secret
       containers:
         - name: app
           image: 766691179784.dkr.ecr.ap-south-1.amazonaws.com/progressive-delivery-app:c02de64
