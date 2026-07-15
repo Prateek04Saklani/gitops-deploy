@@ -33,7 +33,7 @@ spec:
         - name: ecr-pull-secret
       containers:
         - name: app
-          image: AWS_ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/progressive-delivery-app:SET_BY_CI
+          image: 766691179784.dkr.ecr.ap-south-1.amazonaws.com/progressive-delivery-app:b96303f
           ports:
             - containerPort: 8080
           env:
